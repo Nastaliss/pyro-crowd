@@ -1,0 +1,13 @@
+name: Deploy front
+on:
+  push:
+    paths:
+    - 'src/**/*.{ts,tsx}'
+    - '.github/workflows/**'
+    - 'public/**'
+jobs:
+  deploy-front:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: npm run lint -c .eslintrc
