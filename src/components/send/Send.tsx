@@ -3,18 +3,18 @@ import Upload from './upload/Upload'
 import { Form } from './form/form'
 import { Hint } from './hint/hint'
 import { Footer } from './footer/footer'
-import { useRef } from 'react'
+import { forwardRef, useRef } from 'react'
 
-export const Send = ({ isMobile }: { isMobile: boolean }): JSX.Element => {
-  const datePickerRef = useRef()
+export const Send = forwardRef<HTMLDivElement | null, { isMobile: boolean }>(({ isMobile }, ref): JSX.Element => {
+  const datePickerRef = useRef<{ updateDate: (lastModified: number) => any }>()
   const onPictureSubmit = (file: File): void => {
     if (datePickerRef.current === undefined) {
       return
     }
-    (datePickerRef.current as { updateDate: (lastModified: number) => any }).updateDate(file.lastModified)
+    (datePickerRef.current).updateDate(file.lastModified)
   }
   return (
-      <div id="sendContainer" className={isMobile ? 'mobile' : ''}>
+      <div id="sendContainer" className={isMobile ? 'mobile' : ''} ref={ref}>
         <h2>📷 Envoyer ma photo</h2>
         <p>Télécharger une ou plusieurs photo</p>
           <div id="formContainer">
@@ -26,3 +26,6 @@ export const Send = ({ isMobile }: { isMobile: boolean }): JSX.Element => {
       </div>
   )
 }
+)
+
+Send.displayName = 'Send'

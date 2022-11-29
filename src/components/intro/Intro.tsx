@@ -3,7 +3,12 @@ import './Intro.scss'
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import Carousel from './carousel/Carousel'
 
-export const Intro = ({ isMobile }: { isMobile: boolean }): JSX.Element => {
+export const Intro = ({
+  isMobile, scrollToSend
+}: {
+  isMobile: boolean
+  scrollToSend: () => void
+}): JSX.Element => {
   return (
     <div id="introContainer" className={isMobile ? 'mobile' : ''}>
       <div id="straightCarouselContainer" className={isMobile ? 'mobile' : ''}>
@@ -26,7 +31,7 @@ export const Intro = ({ isMobile }: { isMobile: boolean }): JSX.Element => {
           <p id="explainSubtitle">{'En partageant une photo, vous participez à la création d\'un jeu de données public qui permet d\'aider à la détection de feux de forêts.'}</p>
         </div>
         <a id="detection" href="detect">En savoir plus sur notre système de détection</a>
-        <Button text={'Envoyer une photo'} icon={faArrowDown}/>
+        <Button text={'Envoyer une photo'} icon={faArrowDown} onClick={() => scrollToSend()}/>
       </div>
     </div>
   )
