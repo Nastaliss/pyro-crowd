@@ -2,11 +2,12 @@
 import yes from '../pictures/yes.jpg'
 import no from '../pictures/no.jpg'
 
-import { faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
+import { faCircleCheck, faCircleXmark, faLightbulb } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-export const Hint = (): JSX.Element =>
-  <div id="uploadHint" className='formBox' >
-    <p>Idéalement partagez-nous une photo depuis une vue assez dégagée sur une zone forestière, avec et/ou sans flamme/ fumées.</p>
+export const Hint = ({ isMobile }: { isMobile: boolean }): JSX.Element =>
+  <div id="uploadHint" className={`formBox${isMobile ? ' mobile' : ''}`} >
+    <h2><FontAwesomeIcon icon={faLightbulb} id="bulb-icon"/>Quelle type de photo envoyer ?</h2>
+    <p>Idéalement, partagez-nous une photo depuis une vue assez dégagée sur une zone forestière, avec et/ou sans flamme/fumée.</p>
     <div id="uploadHintComparison">
       <div className='yes'>
         <img src={yes} alt="yes" />

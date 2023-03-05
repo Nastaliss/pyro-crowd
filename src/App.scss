@@ -1,0 +1,50 @@
+#pageContainer {
+  position: absolute;
+  padding: 75px 50px;
+  &.mobile {
+    padding: 165px 5vw 0 5vw;
+    left: 0;
+    right: 0;
+  }
+}
+
+
+#straightCarouselContainer {
+  top: 0;
+  position: absolute;
+  /* right: -418px; */
+  /* width: 1600px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* right: -550px; */
+  right: 0;
+  left: 0;
+  top: -10px; /* Go through headerBg */
+  bottom: 0;
+  overflow: hidden;
+  z-index: -10;
+
+  &.mobile {
+    top: 0;
+  }
+
+  #wideCarouselContainer {
+    rotate: 38.96deg;
+    z-index: -10;
+    position: absolute;
+    width: 100%;
+    top: -10vh;
+    right: -30vw;
+  }
+
+  #smallCarouselContainer {
+    z-index: -10;
+    position: absolute;
+    width: 100%;
+    top: -65px;
+  }
+}
+
+

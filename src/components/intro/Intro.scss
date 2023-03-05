@@ -1,61 +1,59 @@
 #introContainer {
-  padding: 75px 50px;
   display: flex;
   flex-direction: column;
   position: relative;
 
-  &.mobile {
-    padding: 150px 5vw;
-  }
+
 
   #introText {
     width: 60%;
-
     &.mobile {
       width: 100%;
     }
 
-    & > Button {
-      margin-top: 46px;
+    h1 {
+      font-family: 'Proxima Nova';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 45px;
+      line-height: 45px;
+      margin-top: 0;
+
+      /* Acccent - Pines */
+      color: #054546;
+
+      margin-bottom: 30px;
     }
-  }
+    #explain {
+      h2 {
 
-  h1 {
-    font-family: 'Proxima Nova';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 45px;
-    line-height: 45px;
+        font-family: 'Noto Sans';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 30px;
+  
+        /* Vivid green */
+        color: #5BBD8C;
+        margin: 20px 0;
+      }
 
-    /* Acccent - Pines */
-    color: #054546;
-  }
+      #explainSubtitle {
+        font-family: 'Noto Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 22px;
+        line-height: 30px;
 
-  h2 {
+        /* Vivid green */
+        color: #283B3D;
+        margin: 22px 0;
+      }
+    }
 
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 22px;
-    line-height: 30px;
-
-    /* Vivid green */
-    color: #5BBD8C;
-
-
-  }
-
-  #explainSubtitle {
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 22px;
-    line-height: 30px;
-
-    /* Vivid green */
-    color: #283B3D;
-
-
+    .sendButton {
+      margin: 20px 0;
+    }
   }
 
   #detection {
@@ -73,44 +71,4 @@
     display: block;
   }
 }
-
-
-#straightCarouselContainer {
-  top: 0;
-  position: absolute;
-  /* right: -418px; */
-  /* width: 1600px; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* right: -550px; */
-  right: 0;
-  left: 0;
-  top: -10px; /* Go through headerBg */
-  bottom: 0;
-  overflow: hidden;
-  z-index: -10;
-
-  &.mobile {
-    top: 0;
-  }
-
-  #wideCarouselContainer {
-    rotate: 38.96deg;
-    z-index: -10;
-    position: absolute;
-    width: 100%;
-    top: -10vh;
-    right: -30vw;
-  }
-
-  #smallCarouselContainer {
-    z-index: -10;
-    position: absolute;
-    width: 100%;
-    top: -65px;
-  }
-}
-
 

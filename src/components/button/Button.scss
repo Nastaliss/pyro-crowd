@@ -8,7 +8,7 @@
   padding: 20px;
   gap: 10px;
   height: 59px;
-  width: 210px;
+  width: 100%;
   box-shadow: none;
   font-family: 'Noto Sans';
   font-style: normal;
@@ -20,7 +20,7 @@
   cursor: pointer;
   border: 2px solid #5BBD8C;
 
-  &:hover {
+  &:hover, &.filled {
     background: #5BBD8C;
     color: #F8FAFF;
   }
@@ -30,9 +30,11 @@
     border-color: #F6B52A;
   }
 
-  &.secondary:hover {
-    background: #F6B52A;
-    color: #F8FAFF;
+  &.secondary{
+    &:hover, &.filled {
+      background: #F6B52A;
+      color: #F8FAFF;
+    }
   }
 
   &:disabled {

@@ -8,15 +8,24 @@ export const Button = ({
   text,
   icon = null,
   disabled = false,
-  secondary = false
+  secondary = false,
+  filled = false, // Useful for mobile where buttons cannot be hovered
+  className,
+  onClick = () => {}
 }: {
   text: string
   icon?: IconDefinition | null
   disabled?: boolean
   secondary?: boolean
+  filled?: boolean
+  className?: string
+  onClick?: () => any
 }): JSX.Element => {
   return (
-    <button className={`pyro-button ${secondary ? 'secondary' : ''}`} disabled={disabled}>
+    <button
+      className={`pyro-button${secondary ? ' secondary' : ''}${filled ? ' filled' : ''}${className !== undefined ? ' ' + className : ''}`}
+      disabled={disabled}
+      onClick={onClick}>
       {text}
       {icon !== null ? <FontAwesomeIcon icon={icon}/> : <></>}
     </button>

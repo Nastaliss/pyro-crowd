@@ -3,6 +3,10 @@
   padding: 50px 50px ;
   display: flex;
   flex-direction: column;
+  &.mobile {
+    background-color: unset;
+
+  }
   h2 {
     font-family: 'Noto Sans';
     font-style: normal;
@@ -10,6 +14,7 @@
     font-size: 22px;
     line-height: 30px;
     color: #F8FAFF;
+    margin: 20px 0;
   }
   p {
     color: #F8FAFF;
@@ -18,6 +23,7 @@
     font-weight: 700;
     font-size: 14px;
     line-height: 19px;
+    margin: 10px 0;
   }
 
   .formBox {
@@ -64,10 +70,25 @@
 #uploadHint {
   padding: 40px;
   grid-area: hint;
+  &.mobile {
+    background-color: #FFF9EB;
+    border: 1px solid #FFECC1;
+    border-radius: 10px;
+    margin: 20px;
+  }
+  h2 {
+    color: black;
+    font-size: 15px;
+    font-family: 'Proxima Nova';
+    #bulb-icon {
+      color: #dfa418;
+      padding: 0 5px;
+    }
+  }
   p {
     font-family: 'Noto Sans';
     font-style: normal;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 12px;
     line-height: 16px;
     color: #283B3D;

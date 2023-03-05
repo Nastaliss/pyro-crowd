@@ -17,7 +17,6 @@
     .input {
       border: 0px solid black;
       border-bottom: 1px solid black;
-      padding-left: 14px;
       background: none;
 
       font-family: 'Noto Sans';
@@ -81,6 +80,10 @@
       transform: translateY(-50%);
       font-size: 21px;
       pointer-events: none;
+      &.clear-icon{
+      pointer-events: all;
+        cursor: pointer ;
+      }
     }
   }
 

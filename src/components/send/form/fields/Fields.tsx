@@ -1,50 +1,53 @@
-import { ChangeEvent, createRef, FocusEvent, forwardRef, KeyboardEvent, MouseEvent, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react'
+import { ChangeEvent, createRef, FocusEvent, KeyboardEvent, MouseEvent, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 import './Fields.scss'
 import 'react-datepicker/dist/react-datepicker.min.css'
 
-import { faCalendarDays, IconDefinition, faSquare, faSquareCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarDays, faClock, IconDefinition, faSquare, faSquareCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { simplifyString } from '../../../../helpers/strings'
 
-export const DatePicker = forwardRef(({ id, label }: { id: string, label: string }, ref: any) => {
-  useImperativeHandle(ref, () => ({
-    updateDate: (date: Date) => {
-      onDateChange(date)
-    }
-  })
-  )
-  const [startDate, setStartDate] = useState(new Date())
-  const [valid, setValid] = useState(false)
+export interface DatePickerHandle {
+  collect: () => Date
+}
 
-  const isDateInTheFuture = (date: Date): boolean => {
-    const now = new Date()
-    return date > now
-  }
+export const DateTimePicker = ({ dateTime, onChange, valid }: { dateTime: Date, onChange: (dateTime: Date) => void, valid: { date: boolean, time: boolean } }): JSX.Element => {
+  const [dateId, timeId] = ['date-picker', 'time-picker']
 
   const onDateChange = (date: any): void => {
-    if (date === null) return
-    setStartDate(date)
-    if (isDateInTheFuture(date)) {
-      return setValid(false)
-    }
-    setValid(true)
+    onChange(date)
+  }
+
+  const onTimeChange = (date: Date): void => {
+    const newDate = dateTime
+    newDate.setHours(date.getHours())
+    newDate.setMinutes(date.getMinutes())
+    newDate.setSeconds(date.getSeconds())
+    onChange(newDate)
   }
 
   return (
-    <div className='field-container'>
-      <label htmlFor={id}>{label}</label>
-      <div className='input-container'>
-        <ReactDatePicker dateFormat="dd/MM/yyyy HH:mm" showTimeSelect timeFormat='HH:mm' selected={startDate} onChange={onDateChange} className={`input ${valid ? 'valid' : ''} ${!valid ? 'invalid' : ''}`} id={id}/>
-        <FontAwesomeIcon icon={faCalendarDays} className="input-icon"/>
+    <>
+      <div className='field-container'>
+        <label htmlFor={dateId}>Date</label>
+        <div className='input-container'>
+          <ReactDatePicker dateFormat="dd/MM/yyyy" selected={dateTime} onChange={onDateChange} className={`input ${valid.date ? 'valid' : 'invalid'}`} id={dateId}/>
+          <FontAwesomeIcon icon={faCalendarDays} className="input-icon"/>
+        </div>
       </div>
-    </div>
+      <div className='field-container'>
+        <label htmlFor={timeId}>Heure</label>
+        <div className='input-container'>
+          <ReactDatePicker showTimeSelect dateFormat="HH:mm" showTimeSelectOnly selected={dateTime} onChange={onTimeChange} className={`input ${valid.time ? 'valid' : 'invalid'}`} id={timeId} timeFormat="HH:mm" />
+          <FontAwesomeIcon icon={faClock} className="input-icon"/>
+        </div>
+      </div>
+    </>
   )
-})
+}
 
-DatePicker.displayName = 'DatePicker'
-
-interface SelectItem { displayName: string, value: string | number }
+export type Value = string | number
+interface SelectItem { displayName: string, value: Value }
 
 export const DropDown = ({
   id,
@@ -53,7 +56,8 @@ export const DropDown = ({
   multiple = false,
   items = [],
   placeholder = 'Select',
-  filterPlacehoder = 'Filter'
+  filterPlacehoder = 'Filter',
+  onChange
 }: {
   id: string
   label: string
@@ -62,10 +66,12 @@ export const DropDown = ({
   items: SelectItem[]
   placeholder?: string
   filterPlacehoder?: string
+  onChange: (value: Value | null) => void
 }): JSX.Element => {
   // Todo: Optimize this hot mess
 
   const [input, setInput] = useState<string>('')
+  const [confirmedInput, setConfirmedInput] = useState<string>(input)
   const [matchingItems, setMatchingItems] = useState<SelectItem[]>(items)
   const [open, setOpen] = useState<boolean>(false)
   const [arrowFocus, setArrowFocus] = useState<number | null>(null)
@@ -77,9 +83,11 @@ export const DropDown = ({
   }
 
   const handleBlur = (e: FocusEvent<HTMLInputElement>): void => {
+    console.log(e)
     e.preventDefault()
     resetArrowFocus()
     setOpen(false)
+    setConfirmedInput(input)
   }
 
   const resetArrowFocus = (): void => setArrowFocus(null)
@@ -93,8 +101,9 @@ export const DropDown = ({
     e.preventDefault()
     if (isEnter) {
       resetArrowFocus()
-      // checkInputValidity()
       setOpen(false)
+      setConfirmedInput(input)
+      return
     }
 
     let newArrowFocus = (arrowFocus === null ? -1 : arrowFocus)
@@ -113,41 +122,57 @@ export const DropDown = ({
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault()
-    const inputText = e.target.value
+    updateInput(e.target.value)
+  }
+
+  const updateInput = (inputText: string): void => {
     resetArrowFocus()
     setInput(inputText)
 
     setMatchingItems(items.filter((item) => {
       return (simplifyString(item.displayName).includes(simplifyString(inputText)))
     }))
-    // checkInputValidity()
   }
 
   const handleOptionClick = (e: MouseEvent<HTMLLIElement>): void => {
     e.preventDefault()
     resetArrowFocus()
 
-    setInput((e.target as HTMLLIElement).dataset.value as string)
+    const clickedInput = (e.target as HTMLLIElement).dataset.value as string
+    setInput(clickedInput)
+    setConfirmedInput(clickedInput)
   }
 
-  const checkInputValidity = useCallback(() => {
-    if (input.length === 0) {
+  const checkInputValidity = (): void => {
+    console.log('INPUT CONFIRMED')
+    if (confirmedInput.length === 0) {
       setValid(null)
       return
     }
-    setValid(
-      items.map(({ displayName }) => displayName).includes(input)
-    )
-  }, [items, input])
+    for (const item of items) {
+      if (item.displayName === confirmedInput) {
+        setValid(true)
+        onChange(item.value)
+        break
+      }
+      setValid(false)
+      onChange(null)
+    }
+  }
 
-  useEffect(() => { checkInputValidity() })
+  useEffect(() => checkInputValidity(), [confirmedInput])
+
+  const clearInput = (e: MouseEvent<SVGSVGElement>): void => { e.preventDefault(); setInput('') }
 
   return (
     <div className="field-container">
       <label htmlFor={id}>{label}</label>
-      <div className='input-container'>
-        <input name={id} id={id} onInput={handleInput} onFocus={handleFocus} onBlur={handleBlur} onKeyDown={handleKeyDown} value={input} className={`input ${(valid ?? false) ? 'valid' : ''} ${valid === false ? 'invalid' : ''} ${open ? 'open' : 'closed'}`} placeholder={open ? filterPlacehoder : placeholder}/>
-        <FontAwesomeIcon icon={icon} className="input-icon"/>
+      <div className='input-container' onFocus={handleFocus} onBlur={handleBlur}>
+        <input name={id} id={id} onInput={handleInput} onKeyDown={handleKeyDown} value={input} className={`input ${(valid ?? false) ? 'valid' : ''} ${valid === false ? 'invalid' : ''} ${open ? 'open' : 'closed'}`} placeholder={open ? filterPlacehoder : placeholder}/>
+        {open
+          ? <FontAwesomeIcon icon={faCircleXmark} className="input-icon clear-icon" onMouseDown={clearInput}/>
+          : <FontAwesomeIcon icon={icon } className="input-icon"/>
+        }
       </div>
       <ul className={`select ${open ? 'open' : 'closed'}`}>
         {matchingItems.map(({ displayName, value }, index) =>
@@ -228,7 +253,6 @@ export const MultipleDropDown = ({
     e.preventDefault()
     if (isEnter) {
       resetArrowFocus()
-      // checkInputValidity()
       setOpen(false)
       return
     }
