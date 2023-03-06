@@ -1,0 +1,28 @@
+#perPictureInfo {
+  width: 100%;
+  .pillsContainer {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  h3 {
+    color: #054546;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;
+  }
+  p {
+    color: #054546;
+    width: 343px;
+    height: 19px;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+  }
+}

@@ -113,7 +113,7 @@ const departments: DepartmentInfo = {
 const formKeys = ['date', 'time', 'departement', 'consent'] as const
 type formKey = typeof formKeys[number]
 
-interface Output {
+export interface Output {
   datetime: Date
   departement: string
   consent: boolean

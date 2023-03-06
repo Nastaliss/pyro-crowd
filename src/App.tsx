@@ -4,7 +4,7 @@ import { Intro } from './components/intro/Intro'
 import { Send } from './components/send/Send'
 import { useEffect, useState } from 'react'
 import Carousel from './components/intro/carousel/Carousel'
-import { GlobalInfo } from './components/send/form/GlobalInfo'
+import { GlobalInfo, Output } from './components/send/form/GlobalInfo'
 import { PerPictureInfo } from './components/send/form/PerPictureInfo'
 
 function App (): JSX.Element {
@@ -22,7 +22,11 @@ function App (): JSX.Element {
     onWindowResize()
   })
 
-  const [stage, setStage] = useState<'IMAGE_UPLOAD' | 'GLOBAL_INFO' | 'PER_PICTURE_INFO' | 'CONFIRM'>('GLOBAL_INFO')
+  const [stage, setStage] = useState<'IMAGE_UPLOAD' | 'GLOBAL_INFO' | 'PER_PICTURE_INFO' | 'CONFIRM'>('PER_PICTURE_INFO')
+
+  const [globalInfo, setGlobalInfo] = useState<Output | null>(
+    { consent: true, datetime: new Date(), departement: 'Aine' }
+  )
 
   let content: JSX.Element = <></>
 
@@ -30,7 +34,8 @@ function App (): JSX.Element {
     setStage('GLOBAL_INFO')
   }
 
-  const onGlobalInfoSubmit = (): void => {
+  const onGlobalInfoSubmit = (globalInfoOutput: Output): void => {
+    setGlobalInfo(globalInfoOutput)
     setStage('PER_PICTURE_INFO')
   }
 
@@ -52,9 +57,12 @@ function App (): JSX.Element {
       )
       break
     case 'PER_PICTURE_INFO':
+      if (globalInfo === null) {
+        throw TypeError('globalInfo is null')
+      }
       content = (
         <>
-          <PerPictureInfo/>
+          <PerPictureInfo globalInfo={globalInfo }/>
         </>
       )
       break
@@ -65,23 +73,26 @@ function App (): JSX.Element {
   return (
     <div id="rootOrganizer">
       <Navbar isMobile={isMobile} />
-      <div id="pageContainer" className={isMobile ? 'mobile' : ''}>
-        <div id="straightCarouselContainer" className={isMobile ? 'mobile' : ''}>
           {isMobile
-            ? <div id="smallCarouselContainer">
-            <Carousel/>
-            <Carousel directionLeftToRight={false}/>
+            ? <></>
+            : <div id="straightCarouselContainer" className={isMobile ? 'mobile' : ''}>
+                <div id="wideCarouselContainer">
+                  <Carousel directionLeftToRight={true}/>
+                  <Carousel directionLeftToRight={false}/>
+                  <Carousel directionLeftToRight={true}/>
+                </div>
+              </div>}
+      {isMobile
+        ? <div id="straightCarouselContainer" className={isMobile ? 'mobile' : ''}>
+            <div id="smallCarouselContainer">
+              <Carousel directionLeftToRight={true}/>
+              <Carousel directionLeftToRight={false}/>
+            </div>
           </div>
-            : <div id="wideCarouselContainer">
-            <Carousel />
-            <Carousel directionLeftToRight={false}/>
-            <Carousel/>
-          </div>
-          }
-        </div>
+        : <></>}
+      <div id="pageContainer" className={isMobile ? 'mobile' : ''}>
         {content}
       </div>
-
     </div>
   )
 }
