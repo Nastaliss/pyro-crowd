@@ -3,9 +3,9 @@ import Navbar from './components/navbar/Navbar'
 import { Intro } from './components/intro/Intro'
 import { Send } from './components/send/Send'
 import { useEffect, useState } from 'react'
-import Carousel from './components/intro/carousel/Carousel'
 import { GlobalInfo, Output as GlobalInfoOutput } from './components/send/form/GlobalInfo'
 import { PerPictureInfo } from './components/send/form/PerPictureInfo'
+import { Carousels } from './components/intro/carousel/Carousels'
 
 const vis = (function () {
   const keysList = ['hidden', 'webkitHidden', 'mozHidden', 'msHidden'] as const
@@ -115,23 +115,7 @@ function App (): JSX.Element {
   return (
     <div id="rootOrganizer">
       <Navbar isMobile={isMobile} />
-          {isMobile
-            ? <></>
-            : <div id="straightCarouselContainer" className={isMobile ? 'mobile' : ''}>
-                <div id="wideCarouselContainer">
-                  <Carousel key="1" directionLeftToRight={true} animate={animate}/>
-                  <Carousel key="2" directionLeftToRight={false} animate={animate}/>
-                  <Carousel key="3" directionLeftToRight={true} animate={animate}/>
-                </div>
-              </div>}
-      {isMobile
-        ? <div id="straightCarouselContainer" className={isMobile ? 'mobile' : ''}>
-            <div id="smallCarouselContainer">
-              <Carousel key="1" directionLeftToRight={true} animate={animate}/>
-              <Carousel key="2" directionLeftToRight={false} animate={animate}/>
-            </div>
-          </div>
-        : <></>}
+      <Carousels isMobile={isMobile} animate={animate}/>
       <div id="pageContainer" className={isMobile ? 'mobile' : ''}>
         {content}
       </div>

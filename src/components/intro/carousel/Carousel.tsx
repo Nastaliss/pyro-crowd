@@ -10,12 +10,12 @@ interface IProps {
   speedPixelPerSecond: number
   directionLeftToRight: boolean
   totalWidthPixel: number
-  animate: boolean
 }
 
 interface IState {
   pictures: ReactElement[]
   nextIndex: number
+  timerRef: NodeJS.Timer | null
 }
 export default class Carousel extends Component<IProps, IState> {
   first = false
@@ -25,7 +25,8 @@ export default class Carousel extends Component<IProps, IState> {
     super(props)
     this.state = {
       pictures: [],
-      nextIndex: 0
+      nextIndex: 0,
+      timerRef: null
     }
     this.maxArraySize = Math.ceil(this.props.totalWidthPixel / (this.props.pictureWidthPixel + this.props.picturePaddingPixel) + 2) // Last item is discarded, first item is appearing
   }
@@ -36,8 +37,7 @@ export default class Carousel extends Component<IProps, IState> {
     picturePaddingPixel: 10,
     speedPixelPerSecond: 30,
     directionLeftToRight: true,
-    totalWidthPixel: 2560,
-    animate: true
+    totalWidthPixel: 2560
   }
 
   calculateNextIndex (previousIndex: number): number {
@@ -74,13 +74,27 @@ export default class Carousel extends Component<IProps, IState> {
     })
   }
 
-  componentDidMount (): void {
-    if (this.first) return; this.first = true
+  startSpawn (): void {
+    if (this.state.timerRef !== null) return
     for (let i = this.maxArraySize - 1; i >= 0; i--) {
+      console.log('appending', i)
       this.appendNewImage(i)
     }
 
-    setInterval(() => this.appendNewImage(), this.PICTURE_SPAWN_INTERVAL_MILISECONDS)
+    this.setState({
+      timerRef: setInterval(() => this.appendNewImage(), this.PICTURE_SPAWN_INTERVAL_MILISECONDS)
+    })
+  }
+
+  stopSpawn (): void {
+    if (this.state.timerRef === null) return
+    clearInterval(this.state.timerRef)
+    this.setState({ pictures: [], nextIndex: 0, timerRef: null })
+  }
+
+  componentDidMount (): void {
+    if (this.first) return; this.first = true
+    this.startSpawn()
   }
 
   render (): JSX.Element {
@@ -95,7 +109,7 @@ export default class Carousel extends Component<IProps, IState> {
               left: `-${this.props.pictureWidthPixel + this.props.picturePaddingPixel}px`
             })
       }}>
-          {this.props.animate ? this.state.pictures : <></>}
+          {this.state.pictures}
       </div>
     )
   }
