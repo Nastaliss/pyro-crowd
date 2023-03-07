@@ -10,6 +10,7 @@ interface IProps {
   speedPixelPerSecond: number
   directionLeftToRight: boolean
   totalWidthPixel: number
+  animate: boolean
 }
 
 interface IState {
@@ -35,7 +36,8 @@ export default class Carousel extends Component<IProps, IState> {
     picturePaddingPixel: 10,
     speedPixelPerSecond: 30,
     directionLeftToRight: true,
-    totalWidthPixel: 2560
+    totalWidthPixel: 2560,
+    animate: true
   }
 
   calculateNextIndex (previousIndex: number): number {
@@ -83,7 +85,7 @@ export default class Carousel extends Component<IProps, IState> {
 
   render (): JSX.Element {
     return (
-      <div id="carousel" style={{
+      <div className="carousel" style={{
         height: `${this.props.pictureHeightPixel}px`,
         ...(this.props.directionLeftToRight
           ? {
@@ -93,7 +95,7 @@ export default class Carousel extends Component<IProps, IState> {
               left: `-${this.props.pictureWidthPixel + this.props.picturePaddingPixel}px`
             })
       }}>
-          {this.state.pictures}
+          {this.props.animate ? this.state.pictures : <></>}
       </div>
     )
   }

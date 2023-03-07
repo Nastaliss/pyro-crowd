@@ -52,7 +52,7 @@ export const Picture = (
     <img src={path} alt="no" key={index}
     className={`pic ${uniqueClassName} ${getSlidingClass()}`}
     style={{
-      transition: `all ${getTransitionTimeInSecondsFromSpeed(speedPixelsPerSecond)}s linear, opacity 1s`,
+      transition: `all ${getTransitionTimeInSecondsFromSpeed(speedPixelsPerSecond)}s linear, opacity 0.5s`,
       ...(reverseDirection
         ? {
             right: `${offsetPixel}px`
