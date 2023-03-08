@@ -20,8 +20,8 @@ export const Tags = (): JSX.Element => {
     console.log(tagKey)
   }
 
-  const tagsElements = allTags.map((tagKey) => <>
-    <Tag tagInfo={tags[tagKey]} enabled={tagEnabled[tagKey]} onClick={onTagClick} key={tagKey} tagId={tagKey}/>
+  const tagsElements = allTags.map((tagKey, tagIndex1) => <>
+    <Tag tagInfo={tags[tagKey]} enabled={tagEnabled[tagKey]} onClick={onTagClick} key={tagIndex1} tagId={tagKey}/>
   </>)
   return (
     <div className='tagsContainer'>

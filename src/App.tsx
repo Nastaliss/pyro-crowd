@@ -71,7 +71,7 @@ function App (): JSX.Element {
 
   let content: JSX.Element = <></>
 
-  const onImageUploadSubmit = (files: any): void => {
+  const onImageUploadSubmit = (files: File[]): void => {
     setImageUploads(files)
     setStage('GLOBAL_INFO')
   }
@@ -116,7 +116,7 @@ function App (): JSX.Element {
     <div id="rootOrganizer">
       <Navbar isMobile={isMobile} />
       <Carousels isMobile={isMobile} animate={animate}/>
-      <div id="pageContainer" className={isMobile ? 'mobile' : ''}>
+      <div id="pageContainer" className={`${isMobile ? 'mobile' : ''}${stage === 'PER_PICTURE_INFO' ? ' noPadding' : ''}`}>
         {content}
       </div>
     </div>

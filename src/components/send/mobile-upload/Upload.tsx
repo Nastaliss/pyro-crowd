@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Button } from '../../button/Button'
 import './Upload.scss'
 
-const Upload = ({ onImageUpload }: { onImageUpload: (files: File[]) => any }): JSX.Element => {
+const Upload = ({ onImageUpload }: { onImageUpload: (files: FileList) => any }): JSX.Element => {
   const inputRef = useRef<null | HTMLInputElement>(null)
 
   return (

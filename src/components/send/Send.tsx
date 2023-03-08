@@ -5,10 +5,14 @@ import { Hint } from './hint/hint'
 import { Footer } from './footer/footer'
 import { useRef } from 'react'
 
-export const Send = ({ isMobile, onSubmit }: { isMobile: boolean, onSubmit: () => void }): JSX.Element => {
+export const Send = ({ isMobile, onSubmit }: { isMobile: boolean, onSubmit: (files: File[]) => void }): JSX.Element => {
   const datePickerRef = useRef()
-  const onImageUpload = (files: File[]): void => {
-    onSubmit()
+  const onImageUpload = (fileList: FileList): void => {
+    const files: File[] = []
+    for (let i = 0; i < fileList.length; i++) {
+      files.push(fileList[i])
+    }
+    onSubmit(files)
   }
 
   const onPictureSubmit = (file: File): void => {
