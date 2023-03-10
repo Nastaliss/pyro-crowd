@@ -2,10 +2,11 @@ import './App.scss'
 import Navbar from './components/navbar/Navbar'
 import { Intro } from './components/intro/Intro'
 import { Send } from './components/send/Send'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { GlobalInfo, Output as GlobalInfoOutput } from './components/send/form/GlobalInfo'
 import { PerPictureInfo } from './components/send/form/PerPictureInfo'
 import { Carousels } from './components/intro/carousel/Carousels'
+import { Modal, ModalRef } from './components/modal/Modal'
 
 const vis = (function () {
   const keysList = ['hidden', 'webkitHidden', 'mozHidden', 'msHidden'] as const
@@ -70,7 +71,7 @@ function App (): JSX.Element {
   const [imageUploads, setImageUploads] = useState<File[]>([])
 
   let content: JSX.Element = <></>
-
+  const modalRef = useRef<ModalRef>(null)
   const onImageUploadSubmit = (files: File[]): void => {
     setImageUploads(files)
     setStage('GLOBAL_INFO')
@@ -104,7 +105,11 @@ function App (): JSX.Element {
       }
       content = (
         <>
-          <PerPictureInfo globalInfo={globalInfo} imageUploads={imageUploads}/>
+          {
+            modalRef.current === null
+              ? <></>
+              : <PerPictureInfo globalInfo={globalInfo} imageUploads={imageUploads} modalRef={modalRef.current}/>
+          }
         </>
       )
       break
@@ -114,6 +119,7 @@ function App (): JSX.Element {
 
   return (
     <div id="rootOrganizer">
+      <Modal ref={modalRef}/>
       <Navbar isMobile={isMobile} />
       <Carousels isMobile={isMobile} animate={animate}/>
       <div id="pageContainer" className={`${isMobile ? 'mobile' : ''}${stage === 'PER_PICTURE_INFO' ? ' noPadding' : ''}`}>

@@ -21,8 +21,8 @@ export const PictureByPicture = ({ pictures }: { pictures: PictureInfo[] }): JSX
     console.log(pictureSwipePx)
     if (pictureIndex !== currentPictureIndex) return
     if (Math.abs(pictureSwipePx) < 50) return
-    if (pictureSwipePx < 0) setCurrentPictureIndex(Math.max(0, currentPictureIndex - 1))
-    if (pictureSwipePx > 0) setCurrentPictureIndex(Math.min(pictures.length - 1, currentPictureIndex + 1))
+    if (pictureSwipePx > 0) setCurrentPictureIndex(Math.max(0, currentPictureIndex - 1))
+    if (pictureSwipePx < 0) setCurrentPictureIndex(Math.min(pictures.length - 1, currentPictureIndex + 1))
   }
 
   return (

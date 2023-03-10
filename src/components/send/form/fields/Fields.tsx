@@ -57,7 +57,8 @@ export const DropDown = ({
   items = [],
   placeholder = 'Select',
   filterPlacehoder = 'Filter',
-  onChange
+  onChange,
+  initialValue = null
 }: {
   id: string
   label: string
@@ -67,6 +68,7 @@ export const DropDown = ({
   placeholder?: string
   filterPlacehoder?: string
   onChange: (value: Value | null) => void
+  initialValue?: string | null
 }): JSX.Element => {
   // Todo: Optimize this hot mess
 
@@ -161,6 +163,10 @@ export const DropDown = ({
   }
 
   useEffect(() => checkInputValidity(), [confirmedInput])
+
+  useEffect(() => {
+    if (initialValue !== null) setInput(initialValue)
+  }, [])
 
   const clearInput = (e: MouseEvent<SVGSVGElement>): void => { e.preventDefault(); setInput('') }
 

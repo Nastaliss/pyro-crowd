@@ -166,12 +166,11 @@ export const GlobalInfo = ({ onSubmit }: { onSubmit: (output: Output) => void })
 
   const onDepartementChange = (departement: Value | null): void => {
     let departmentIsValid = false
-    let departmentNumber = null
-    if (departement !== null) {
-      departmentIsValid = true
-      departmentNumber = departments[departement]
+    if (departement === null) {
+      return
     }
-    setDepartement(departmentNumber)
+    departmentIsValid = true
+    setDepartement(departement as string)
     setValid({
       ...valid,
       departement: departmentIsValid
@@ -197,14 +196,7 @@ export const GlobalInfo = ({ onSubmit }: { onSubmit: (output: Output) => void })
       <h2>Ajoutez des informations pour ces photos </h2>
       <h3>Vous pourrez editer l&apos;emplacement pour chaque photo à létape suivante.</h3>
       <div id="form" className='formBox' >
-        <DateTimePicker dateTime={date} onChange={onDateTimeChange} valid={{ date: valid.date, time: valid.time }}/>
-        <DropDown
-          id="dept"
-          label="Département"
-          icon={faChevronDown}
-          items={Object.keys(departments).map((name) => ({ displayName: name, value: name }))}
-          onChange={onDepartementChange}
-        />
+        <GlobalInfoForm date={date} onDateTimeChange={onDateTimeChange} valid={valid} onDepartementChange={onDepartementChange}/>
       </div>
       <Checkbox label="J'accepte que ces photos soient intégrées à un jeu de données public" onChecked={onConsentCheckboxCheck} checked={consentCheckboxChecked}/>
       <Button text='Suivant' filled disabled={!isValid()} onClick={onButtonClick}/>
@@ -213,3 +205,19 @@ export const GlobalInfo = ({ onSubmit }: { onSubmit: (output: Output) => void })
 }
 
 GlobalInfo.displayName = 'GlobalInfo'
+
+export const GlobalInfoForm = ({ date, onDateTimeChange, valid, onDepartementChange, initialDepartement }: { date: Date, onDateTimeChange: (dateTime: Date) => void, valid: { date: boolean, time: boolean }, onDepartementChange: (departement: Value | null) => void, initialDepartement?: string }): JSX.Element => {
+  return (
+    <>
+      <DateTimePicker dateTime={date} onChange={onDateTimeChange} valid={{ date: valid.date, time: valid.time }}/>
+      <DropDown
+        id="dept"
+        label="Département"
+        icon={faChevronDown}
+        items={Object.keys(departments).map((name) => ({ displayName: name, value: name }))}
+        onChange={onDepartementChange}
+        initialValue={initialDepartement}
+      />
+    </>
+  )
+}
