@@ -1,5 +1,5 @@
 /* eslint-disable no-return-assign */
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Carousel from './Carousel'
 
 const MobileCarousel = [
@@ -15,20 +15,21 @@ const LargeCarousel = [
 
 export const Carousels = ({ isMobile, animate }: { isMobile: boolean, animate: boolean }): JSX.Element => {
   // const [refs, setRefs] = useState<Array<MutableRefObject<Carousel | null>>>([])
-  const itemsRef = useRef<Array<Carousel | null>>([])
+  const [isReady] = useState<boolean>(true)
+  const carouselsRef = useRef<Array<Carousel | null>>([])
+
+  // useEffect(
+  //   () => {
+  //     const carousel = isMobile ? MobileCarousel : LargeCarousel
+  //     if (carousel.length === carouselsRef.current.length) return
+  //     carouselsRef.current = []
+  //   }, [isMobile]
+  // )
 
   useEffect(
     () => {
-      const carousel = isMobile ? MobileCarousel : LargeCarousel
-      itemsRef.current = itemsRef.current.slice(0, carousel.length)
-    }, [isMobile]
-  )
-
-  useEffect(
-    () => {
-      for (const carouselRef of itemsRef.current) {
+      for (const carouselRef of carouselsRef.current) {
         if (animate) {
-          console.log('startSpqw')
           carouselRef?.startSpawn()
         } else carouselRef?.stopSpawn()
       }
@@ -37,18 +38,21 @@ export const Carousels = ({ isMobile, animate }: { isMobile: boolean, animate: b
 
   return (
     <div id="straightCarouselContainer" className={isMobile ? 'mobile' : ''}>
-      {isMobile
-        ? <div id="smallCarouselContainer">
+      {isReady
+        ? (isMobile
+            ? <div id="smallCarouselContainer">
             {MobileCarousel.map((carousel, index) => <>
-              <Carousel key={index} directionLeftToRight={carousel.directionLeftToRight} ref={el => itemsRef.current[index] = el}/>
+              <Carousel key={index} directionLeftToRight={carousel.directionLeftToRight} ref={el => carouselsRef.current[index] = el}/>
             </>)}
           </div>
-        : <div id="wideCarouselContainer">
+            : <div id="wideCarouselContainer">
             {LargeCarousel.map((carousel, index) => <>
-              <Carousel key={index} directionLeftToRight={carousel.directionLeftToRight} ref={el => itemsRef.current[index] = el}/>
+              <Carousel key={index} directionLeftToRight={carousel.directionLeftToRight} ref={el => carouselsRef.current[index] = el}/>
             </>)}
           </div>
-      }
+          )
+        : <></>
+    }
     </div>
   )
 }

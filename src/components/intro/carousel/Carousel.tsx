@@ -77,12 +77,11 @@ export default class Carousel extends Component<IProps, IState> {
   startSpawn (): void {
     if (this.state.timerRef !== null) return
     for (let i = this.maxArraySize - 1; i >= 0; i--) {
-      console.log('appending', i)
       this.appendNewImage(i)
     }
-
+    const timerRef = setInterval(() => this.appendNewImage(), this.PICTURE_SPAWN_INTERVAL_MILISECONDS)
     this.setState({
-      timerRef: setInterval(() => this.appendNewImage(), this.PICTURE_SPAWN_INTERVAL_MILISECONDS)
+      timerRef
     })
   }
 
@@ -90,11 +89,6 @@ export default class Carousel extends Component<IProps, IState> {
     if (this.state.timerRef === null) return
     clearInterval(this.state.timerRef)
     this.setState({ pictures: [], nextIndex: 0, timerRef: null })
-  }
-
-  componentDidMount (): void {
-    if (this.first) return; this.first = true
-    this.startSpawn()
   }
 
   render (): JSX.Element {

@@ -14,11 +14,9 @@ export const PictureByPicture = ({ pictures }: { pictures: PictureInfo[] }): JSX
     } else if (pictureIndex === currentPictureIndex - 1) {
       setCurrentPictureIndex(currentPictureIndex - 1)
     }
-    console.log(`calc(${currentPictureIndex} * (${pictureWidth} + 2 * ${margin}))`)
   }
 
   const onPictureSwipe = (pictureIndex: number, pictureSwipePx: number): void => {
-    console.log(pictureSwipePx)
     if (pictureIndex !== currentPictureIndex) return
     if (Math.abs(pictureSwipePx) < 50) return
     if (pictureSwipePx > 0) setCurrentPictureIndex(Math.max(0, currentPictureIndex - 1))

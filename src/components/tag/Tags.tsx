@@ -17,7 +17,6 @@ export const Tags = (): JSX.Element => {
       ...tagEnabled,
       [tagKey]: !tagEnabled[tagKey]
     })
-    console.log(tagKey)
   }
 
   const tagsElements = allTags.map((tagKey, tagIndex1) => <>

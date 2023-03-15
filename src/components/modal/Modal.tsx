@@ -17,19 +17,15 @@ export const Modal = forwardRef<ModalRef, {}>((_, ref: any): JSX.Element => {
 
   useImperativeHandle(ref, (): ModalRef => ({
     open (content: ModalInnerComponent, context: ModalContext) {
-      console.log(content)
       if (content === null) {
         throw new Error('content cant be null')
       }
-      console.log(content)
       setInnerComponent(() => content) // Why is this required ?
       setContext(context)
       setIsOpen(true)
     },
     close
   }))
-
-  console.log(InnerComponent, isOpen)
 
   return (
     <>

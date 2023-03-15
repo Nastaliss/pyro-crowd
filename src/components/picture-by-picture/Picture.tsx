@@ -17,7 +17,6 @@ export const Picture = ({ className, picture, index, onClick, onSwipe }: { class
   }, [])
 
   const onTouchStart = (e: React.TouchEvent<HTMLImageElement>): void => {
-    console.log(e.targetTouches[0])
     setTouchStartPos(e.targetTouches[0].clientX)
   }
   const onTouchMove = (e: React.TouchEvent<HTMLImageElement>): void => setTouchCurrentPos(e.targetTouches[0].clientX)

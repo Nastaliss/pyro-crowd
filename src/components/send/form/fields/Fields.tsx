@@ -85,7 +85,6 @@ export const DropDown = ({
   }
 
   const handleBlur = (e: FocusEvent<HTMLInputElement>): void => {
-    console.log(e)
     e.preventDefault()
     resetArrowFocus()
     setOpen(false)
@@ -146,7 +145,6 @@ export const DropDown = ({
   }
 
   const checkInputValidity = (): void => {
-    console.log('INPUT CONFIRMED')
     if (confirmedInput.length === 0) {
       setValid(null)
       return
@@ -358,21 +356,14 @@ export const MultipleDropDown = ({
       let pillCount = 0
 
       let brokeOut = false
-      console.log('=================')
-      console.log(selectionDisplayedAsPills)
       for (pillCount; pillCount < pillsRef.current.childNodes.length; pillCount++) {
         currentWidth += getRealSize(pillsRef.current.children.item(pillCount) as HTMLElement)
-        console.log('item', pillCount)
-        console.log('widt', currentWidth)
 
         if (currentWidth > maxTarget) {
           brokeOut = true
           break
         }
       }
-      console.log('brokeout', pillCount)
-      console.log('end', currentWidth)
-      console.log('should be', pillsRef.current?.scrollWidth)
       if (brokeOut) {
         // Only retrigger re-render if the cropping has changed
         if (pillCount === 0 && selectionDisplayedAsPills.length === 0) { return }

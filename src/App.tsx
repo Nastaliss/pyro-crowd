@@ -8,7 +8,7 @@ import { PerPictureInfo } from './components/send/form/PerPictureInfo'
 import { Carousels } from './components/intro/carousel/Carousels'
 import { Modal, ModalRef } from './components/modal/Modal'
 
-const vis = (function () {
+const vis = (() => {
   const keysList = ['hidden', 'webkitHidden', 'mozHidden', 'msHidden'] as const
   const valueList = ['visibilitychange', 'webkitvisibilitychange', 'mozvisibilitychange', 'msvisibilitychange'] as const
   type Keys = typeof keysList[number]
@@ -51,7 +51,6 @@ function App (): JSX.Element {
     onWindowResize()
 
     vis(function () {
-      console.log('up')
       if (vis()) {
         setTimeout(function () {
           setAnimate(true)
@@ -118,14 +117,14 @@ function App (): JSX.Element {
   }
 
   return (
-    <div id="rootOrganizer">
-      <Modal ref={modalRef}/>
-      <Navbar isMobile={isMobile} />
-      <Carousels isMobile={isMobile} animate={animate}/>
-      <div id="pageContainer" className={`${isMobile ? 'mobile' : ''}${stage === 'PER_PICTURE_INFO' ? ' noPadding' : ''}`}>
-        {content}
+      <div id="rootOrganizer">
+        <Modal ref={modalRef}/>
+        <Navbar isMobile={isMobile} />
+        <Carousels isMobile={isMobile} animate={animate}/>
+        <div id="pageContainer" className={`${isMobile ? 'mobile' : ''}${stage === 'PER_PICTURE_INFO' ? ' noPadding' : ''}`}>
+          {content}
+        </div>
       </div>
-    </div>
   )
 }
 
