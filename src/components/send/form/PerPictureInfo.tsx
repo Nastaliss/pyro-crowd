@@ -25,7 +25,8 @@ export const PerPictureInfo = ({
   const [perPictureInfo, setPerPictureInfo] = useState<PictureInfo[]>([])
   const [currentPictureIndex, setCurrentPictureIndex] = useState<number>(0)
   const [currentPictureDeleting, setCurrentPictureDeleting] = useState<boolean>(false)
-  const [picturesToTagCount, setPicturesToTagCount] = useState<number | null>(null)
+  const [picturesLeftToTagCount, setPicturesLeftToTagCount] = useState<number | null>(null)
+  const [firstInvalidPictureIndex, setFirstInvalidPictureIndex] = useState<number | null>(null)
 
   const [isReady, setIsReady] = useState(false)
 
@@ -74,13 +75,16 @@ export const PerPictureInfo = ({
   useEffect(buildInitialPerPictureInforFromGlobalInfo, [])
 
   const updateValidity = (): void => {
-    let _picturesToTagCount = 0
+    let _picturesLeftToTagCount = 0
+    let firstInvalidPicture = null
     for (let pictureIndex = 0; pictureIndex < perPictureInfo.length; pictureIndex++) {
       if (!pictureIsValid(pictureIndex)) {
-        _picturesToTagCount++
+        _picturesLeftToTagCount++
+        if (firstInvalidPicture === null) firstInvalidPicture = pictureIndex
       }
     }
-    setPicturesToTagCount(_picturesToTagCount)
+    setPicturesLeftToTagCount(_picturesLeftToTagCount)
+    setFirstInvalidPictureIndex(firstInvalidPicture)
   }
 
   useEffect(updateValidity, [perPictureInfo])
@@ -95,6 +99,11 @@ export const PerPictureInfo = ({
     editedPerPictureInfo.splice(currentPictureIndex, 1)
     setCurrentPictureIndex(Math.max(0, currentPictureIndex - 1))
     setPerPictureInfo([...editedPerPictureInfo])
+  }
+
+  const selectFirstInvalidPicture = (): void => {
+    if (firstInvalidPictureIndex === null) return
+    setCurrentPictureIndex(firstInvalidPictureIndex)
   }
 
   if (!isReady) return <></>
@@ -117,9 +126,8 @@ export const PerPictureInfo = ({
       <h3>Quels éléments apparaissent ?</h3>
       <p>Sélectionnez les éléments que vous voyez</p>
       <Tags tagEnabled={perPictureInfo[currentPictureIndex].tags} setTagEnabled={setTagEnabled}/>
-      {picturesToTagCount === 1 && <p className='error'>Il reste {picturesToTagCount} photo à décrire</p>}
-      {picturesToTagCount !== null && picturesToTagCount > 1 && <p className='error'>Il reste {picturesToTagCount} photos à décrire</p>}
-      <Button text='Envoyer' filled={isMobile} disabled={picturesToTagCount !== 0}/>
+      {picturesLeftToTagCount !== null && picturesLeftToTagCount !== 0 && <p className='error'>Il reste {picturesLeftToTagCount} {picturesLeftToTagCount === 1 ? 'photo' : 'photos' } à décrire. <span className='clickable' onClick={selectFirstInvalidPicture}>Voir</span></p>}
+      <Button text='Envoyer' filled={isMobile} disabled={picturesLeftToTagCount !== 0}/>
     </div>
   )
 }
