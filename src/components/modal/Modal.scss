@@ -8,4 +8,12 @@
   width: calc(100vw - 20px);
   background: tomato;
   z-index: 10;
+  padding: 10px;
+  box-sizing: border-box;
+  .closeIcon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+  }
 }

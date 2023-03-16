@@ -1,17 +1,18 @@
-import { useState } from 'react'
 import { Tag } from './Tag'
 import './Tags.scss'
 import { AllTags, allTags, tags } from './resources/tags'
 
-export const Tags = (): JSX.Element => {
-  const [tagEnabled, setTagEnabled] = useState<Record<AllTags, boolean>>({
-    clouds: false,
-    fire: false,
-    fog: false,
-    sky: false,
-    smoke: false
-  })
+export const ALL_TAGS_TO_FALSE = {
+  clouds: false,
+  fire: false,
+  fog: false,
+  sky: false,
+  smoke: false
+}
 
+export type TagState = Record<AllTags, boolean>
+
+export const Tags = ({ tagEnabled, setTagEnabled }: { tagEnabled: TagState, setTagEnabled: (tags: TagState) => void }): JSX.Element => {
   const onTagClick = (tagKey: AllTags): void => {
     setTagEnabled({
       ...tagEnabled,

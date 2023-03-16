@@ -29,7 +29,9 @@ export const Modal = forwardRef<ModalRef, {}>((_, ref: any): JSX.Element => {
 
   return (
     <>
-     {isOpen && InnerComponent !== null && <div id="modalContainer"><InnerComponent close={close} context={context}/></div> }
+     {isOpen && InnerComponent !== null && <div id="modalContainer">
+        <InnerComponent close={close} context={context}/>
+      </div> }
     </>
   )
 })
