@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import './Picture.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+
+const DELAY_SECONDS = 1
 
 export const Picture = ({
   className,
@@ -9,18 +11,22 @@ export const Picture = ({
   index,
   clickable,
   deletable,
+  deleting,
   onClick,
   onSwipe,
-  onDelete
+  onDelete,
+  onDeleteComplete
 }: {
   className: string
   picture: File
   index: number
   clickable: boolean
   deletable: boolean
+  deleting: boolean
   onClick: (index: number) => void
   onSwipe: (index: number, swipePx: number) => void
   onDelete: () => void
+  onDeleteComplete: () => void
 }): JSX.Element => {
   const [pictureSrc, setPictureSrc] = useState<string | null>(null)
   const [touchStartPos, setTouchStartPos] = useState<number | null>(null)
@@ -34,6 +40,12 @@ export const Picture = ({
     reader.readAsDataURL(picture)
   }, [picture])
 
+  useEffect(() => {
+    if (!deleting) return
+    console.log('delstart')
+    setTimeout(() => { onDeleteComplete(); console.log('del') }, DELAY_SECONDS * 100)
+  }, [deleting])
+
   const onTouchStart = (e: React.TouchEvent<HTMLImageElement>): void => {
     setTouchStartPos(e.targetTouches[0].clientX)
   }
@@ -43,13 +55,14 @@ export const Picture = ({
     (pictureSrc !== null
       ? <div className='picture-preview'>
       <img src={pictureSrc}
-        className={`${className} ${clickable ? 'clickable' : ''}`}
+        className={`${className} ${clickable ? 'clickable' : ''} ${deleting ? 'deleting' : ''}`}
         onClick={() => { onClick(index) }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
+        style={{ transition: `width: ${DELAY_SECONDS}s, margin: ${DELAY_SECONDS}s, opacity: ${DELAY_SECONDS}s` }}
         />
-      {deletable && <FontAwesomeIcon icon={faTrash} className='deleteIcon' onClick={() => onDelete()}/>}
+      {deletable && <div className='deleteIconContainer'><FontAwesomeIcon icon={faTrashCan} className='deleteIcon' onClick={() => onDelete()}/></div>}
       </div>
       : <></>)
   )

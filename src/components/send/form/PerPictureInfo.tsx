@@ -13,6 +13,7 @@ import { PictureInfo } from './pictureInfo'
 export const PerPictureInfo = ({ globalInfo, imageUploads, modalRef }: { globalInfo: Output, imageUploads: File[], modalRef: ModalRef }): JSX.Element => {
   const [perPictureInfo, setPerPictureInfo] = useState<PictureInfo[]>([])
   const [currentPictureIndex, setCurrentPictureIndex] = useState<number>(0)
+  const [currentPictureDeleting, setCurrentPictureDeleting] = useState<boolean>(false)
 
   const [isReady, setIsReady] = useState(false)
 
@@ -60,7 +61,12 @@ export const PerPictureInfo = ({ globalInfo, imageUploads, modalRef }: { globalI
 
   useEffect(buildInitialPerPictureInforFromGlobalInfo, [])
 
-  const deleteCurrentPicture = (): void => {
+  const triggerCurrentPictureDeleteAnimation = (): void => {
+    setCurrentPictureDeleting(true)
+  }
+  const onCurrentPictureDeleteAnimationComplete = (): void => {
+    setCurrentPictureDeleting(false)
+
     const editedPerPictureInfo = perPictureInfo
     editedPerPictureInfo.splice(currentPictureIndex, 1)
     setCurrentPictureIndex(Math.max(0, currentPictureIndex - 1))
@@ -74,8 +80,10 @@ export const PerPictureInfo = ({ globalInfo, imageUploads, modalRef }: { globalI
         pictures={perPictureInfo}
         currentPictureIndex={currentPictureIndex}
         setCurrentPictureIndex={setCurrentPictureIndex}
-        deleteCurrentPicture={deleteCurrentPicture}
+        deleteCurrentPicture={triggerCurrentPictureDeleteAnimation}
         nextPictureSelectable={pictureIsValid(currentPictureIndex)}
+        currentPictureDeleting={currentPictureDeleting}
+        onCurrentPictureDeleted={onCurrentPictureDeleteAnimationComplete}
       />
       <div className="pillsContainer">
         <Pill text={formatDate(perPictureInfo[currentPictureIndex].datetime)} onClick={onPillClick} icon={faPencil}/>

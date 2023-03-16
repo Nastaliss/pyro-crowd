@@ -7,12 +7,16 @@ export const PictureSelector = ({
   currentPictureIndex,
   setCurrentPictureIndex,
   deleteCurrentPicture,
+  currentPictureDeleting,
+  onCurrentPictureDeleted,
   nextPictureSelectable
 }: {
   pictures: PictureInfo[]
   currentPictureIndex: number
   setCurrentPictureIndex: (number: number) => void
   deleteCurrentPicture: () => void
+  currentPictureDeleting: boolean
+  onCurrentPictureDeleted: () => void
   nextPictureSelectable: boolean
 }): JSX.Element => {
   const pictureWidth = '60vw'
@@ -67,6 +71,8 @@ export const PictureSelector = ({
           onClick={onPictureClick}
           onSwipe={onPictureSwipe}
           onDelete={deleteCurrentPicture}
+          deleting={currentPictureIndex !== pictureIndex ? false : currentPictureDeleting}
+          onDeleteComplete={onCurrentPictureDeleted}
           />
         })
       }
