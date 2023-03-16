@@ -107,7 +107,7 @@ function App (): JSX.Element {
           {
             modalRef.current === null
               ? <></>
-              : <PerPictureInfo globalInfo={globalInfo} imageUploads={imageUploads} modalRef={modalRef.current}/>
+              : <PerPictureInfo globalInfo={globalInfo} imageUploads={imageUploads} modalRef={modalRef.current} isMobile={isMobile}/>
           }
         </>
       )
@@ -120,7 +120,7 @@ function App (): JSX.Element {
       <div id="rootOrganizer">
         <Modal ref={modalRef}/>
         <Navbar isMobile={isMobile} />
-        <Carousels isMobile={isMobile} animate={animate}/>
+        {stage !== 'PER_PICTURE_INFO' && <Carousels isMobile={isMobile} animate={animate}/>}
         <div id="pageContainer" className={`${isMobile ? 'mobile' : ''}${stage === 'PER_PICTURE_INFO' ? ' noPadding' : ''}`}>
           {content}
         </div>

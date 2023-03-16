@@ -9,11 +9,23 @@ import { PictureInfoEditModal, PictureInfoEditModalContext } from './PictureInfo
 import { useEffect, useState } from 'react'
 import { AllTags } from '../../tag/resources/tags'
 import { PictureInfo } from './pictureInfo'
+import { Button } from '../../button/Button'
 
-export const PerPictureInfo = ({ globalInfo, imageUploads, modalRef }: { globalInfo: Output, imageUploads: File[], modalRef: ModalRef }): JSX.Element => {
+export const PerPictureInfo = ({
+  globalInfo,
+  imageUploads,
+  modalRef,
+  isMobile
+}: {
+  globalInfo: Output
+  imageUploads: File[]
+  modalRef: ModalRef
+  isMobile: boolean
+}): JSX.Element => {
   const [perPictureInfo, setPerPictureInfo] = useState<PictureInfo[]>([])
   const [currentPictureIndex, setCurrentPictureIndex] = useState<number>(0)
   const [currentPictureDeleting, setCurrentPictureDeleting] = useState<boolean>(false)
+  const [picturesToTagCount, setPicturesToTagCount] = useState<number | null>(null)
 
   const [isReady, setIsReady] = useState(false)
 
@@ -61,6 +73,18 @@ export const PerPictureInfo = ({ globalInfo, imageUploads, modalRef }: { globalI
 
   useEffect(buildInitialPerPictureInforFromGlobalInfo, [])
 
+  const updateValidity = (): void => {
+    let _picturesToTagCount = 0
+    for (let pictureIndex = 0; pictureIndex < perPictureInfo.length; pictureIndex++) {
+      if (!pictureIsValid(pictureIndex)) {
+        _picturesToTagCount++
+      }
+    }
+    setPicturesToTagCount(_picturesToTagCount)
+  }
+
+  useEffect(updateValidity, [perPictureInfo])
+
   const triggerCurrentPictureDeleteAnimation = (): void => {
     setCurrentPictureDeleting(true)
   }
@@ -93,6 +117,9 @@ export const PerPictureInfo = ({ globalInfo, imageUploads, modalRef }: { globalI
       <h3>Quels éléments apparaissent ?</h3>
       <p>Sélectionnez les éléments que vous voyez</p>
       <Tags tagEnabled={perPictureInfo[currentPictureIndex].tags} setTagEnabled={setTagEnabled}/>
+      {picturesToTagCount === 1 && <p className='error'>Il reste {picturesToTagCount} photo à décrire</p>}
+      {picturesToTagCount !== null && picturesToTagCount > 1 && <p className='error'>Il reste {picturesToTagCount} photos à décrire</p>}
+      <Button text='Envoyer' filled={isMobile} disabled={picturesToTagCount !== 0}/>
     </div>
   )
 }
