@@ -37,6 +37,7 @@ const vis = (() => {
 
 function App (): JSX.Element {
   const [isMobile, setIsMobile] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [animate, setAnimate] = useState(true)
 
   const onWindowResize = (): void => {
@@ -46,6 +47,9 @@ function App (): JSX.Element {
     }
     setIsMobile(false)
   }
+
+  const modalRef = useRef<ModalRef>(null)
+
   useEffect(() => {
     window.addEventListener('resize', onWindowResize)
     onWindowResize()
@@ -61,6 +65,8 @@ function App (): JSX.Element {
     })
   }, [])
 
+  const handleModalChange = (modalState: boolean): void => setIsModalOpen(modalState)
+
   const [stage, setStage] = useState<'IMAGE_UPLOAD' | 'GLOBAL_INFO' | 'PER_PICTURE_INFO' | 'CONFIRM'>('IMAGE_UPLOAD')
 
   const [globalInfo, setGlobalInfo] = useState<GlobalInfoOutput | null>(
@@ -70,7 +76,6 @@ function App (): JSX.Element {
   const [imageUploads, setImageUploads] = useState<File[]>([])
 
   let content: JSX.Element = <></>
-  const modalRef = useRef<ModalRef>(null)
   const onImageUploadSubmit = (files: File[]): void => {
     setImageUploads(files)
     setStage('GLOBAL_INFO')
@@ -117,9 +122,9 @@ function App (): JSX.Element {
   }
 
   return (
-      <div id="rootOrganizer">
-        <Modal ref={modalRef}/>
-        <Navbar isMobile={isMobile} />
+      <div id="rootOrganizer" className={`${isModalOpen ? 'modalOpen' : ''}`}>
+        <Modal ref={modalRef} handleChange={handleModalChange}/>
+        <Navbar isMobile={isMobile} modalRef={modalRef.current}/>
         {stage !== 'PER_PICTURE_INFO' && <Carousels isMobile={isMobile} animate={animate}/>}
         <div id="pageContainer" className={`${isMobile ? 'mobile' : ''}${stage === 'PER_PICTURE_INFO' ? ' noPadding' : ''}`}>
           {content}

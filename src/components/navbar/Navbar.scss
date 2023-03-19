@@ -4,7 +4,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 0 105px 0 105px;
-  background: #FFFFFF;
+  background: #ffffff;
   position: relative;
 
   &.mobile {
@@ -21,19 +21,20 @@ nav {
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
-    font-family: "Proxima Nova", sans-serif;
+    font-family: 'Proxima Nova', sans-serif;
     font-weight: 700;
     font-size: 18px;
     /* identical to box height */
     text-decoration-line: underline;
     /* Acccent - Pines */
     color: #054546;
+    cursor: pointer;
 
     &.mobile {
       position: absolute;
       right: 25px;
       font-size: 25px;
-      color: #5BBD8C;
+      color: #5bbd8c;
     }
   }
 }
@@ -43,6 +44,6 @@ nav {
   height: 11px;
   background: rgba(91, 189, 140, 0.1);
   &.mobile {
-    background: #5BBD8C;
+    background: #5bbd8c;
   }
 }

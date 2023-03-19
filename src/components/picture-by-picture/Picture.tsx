@@ -42,8 +42,7 @@ export const Picture = ({
 
   useEffect(() => {
     if (!deleting) return
-    console.log('delstart')
-    setTimeout(() => { onDeleteComplete(); console.log('del') }, DELAY_SECONDS * 100)
+    setTimeout(() => onDeleteComplete(), DELAY_SECONDS * 100)
   }, [deleting])
 
   const onTouchStart = (e: React.TouchEvent<HTMLImageElement>): void => {

@@ -6,45 +6,51 @@ export type ModalInnerComponent = React.FC<{ close: () => void, context: ModalCo
 export interface ModalRef {
   open: (content: ModalInnerComponent, context: ModalContext) => void
   close: () => unknown
+  isOpen: () => boolean
 }
 
-const ANIMATION_DURATION_SECONDS = 0.3
+interface Props { handleChange: (modalState: boolean) => void }
 
-export const Modal = forwardRef<ModalRef, {}>((_, ref: any): JSX.Element => {
+const ANIMATION_DURATION_SECONDS = 0.3
+export const Modal = forwardRef<ModalRef, Props>(({ handleChange }, ref: any): JSX.Element => {
   const [isClosing, setIsClosing] = useState<boolean>(false)
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [_isOpen, setIsOpen] = useState<boolean>(false)
   const [InnerComponent, setInnerComponent] = useState<ModalInnerComponent | null>(null)
   const [context, setContext] = useState<ModalContext>(null)
 
   const close = (): void => {
-    console.log('clooose')
+    handleChange(false)
     setIsClosing(true)
     setTimeout(() => setIsOpen(false), ANIMATION_DURATION_SECONDS * 1000)
   }
 
+  const open = (content: ModalInnerComponent, context: ModalContext): void => {
+    handleChange(true)
+    setIsClosing(true)
+    if (content === null) {
+      throw new Error('content cant be null')
+    }
+    setInnerComponent(() => content) // Why is this required ?
+    setContext(context)
+    setIsOpen(true)
+  }
+
   useImperativeHandle(ref, (): ModalRef => ({
-    open (content: ModalInnerComponent, context: ModalContext) {
-      setIsClosing(true)
-      if (content === null) {
-        throw new Error('content cant be null')
-      }
-      setInnerComponent(() => content) // Why is this required ?
-      setContext(context)
-      setIsOpen(true)
-    },
-    close
+    open,
+    close,
+    isOpen () { return _isOpen }
   }))
 
   useEffect(() => {
-    if (!isOpen) return
+    if (!_isOpen) return
     setIsClosing(false)
-  }, [isOpen])
+  }, [_isOpen])
 
   return (
     <>
-     {isOpen && InnerComponent !== null &&
-  <div id="modalContainer" className={isClosing ? 'isClosing' : ''} style={{ transition: `opacity ${ANIMATION_DURATION_SECONDS}s` }}>
-        <div id="modal">
+     {_isOpen && InnerComponent !== null &&
+  <div id="modalContainer" className={isClosing ? 'isClosing' : ''} style={{ transition: `opacity ${ANIMATION_DURATION_SECONDS}s` }} onClick={close}>
+        <div id="modal" onClick={(e) => e.stopPropagation()}>
           <InnerComponent close={close} context={context}/>
         </div>
       </div> }

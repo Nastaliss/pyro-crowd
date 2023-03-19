@@ -1,12 +1,17 @@
-#pageContainer {
+#rootOrganizer {
   position: absolute;
-  padding: 75px 50px;
-  &.mobile {
-    padding: 0 5vw 0 5vw;
-    left: 0;
-    right: 0;
+  &.modalOpen {
+    position: fixed;
   }
-  &.noPadding {
-    padding: 0;
+  #pageContainer {
+    padding: 75px 50px;
+    &.mobile {
+      padding: 0 5vw 0 5vw;
+      left: 0;
+      right: 0;
+    }
+    &.noPadding {
+      padding: 0;
+    }
   }
 }
