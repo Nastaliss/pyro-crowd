@@ -1,6 +1,6 @@
 
-import yes from '../pictures/yes.jpg'
-import no from '../pictures/no.jpg'
+import yes from './yes.jpg'
+import no from './no.jpg'
 
 import { faCircleCheck, faCircleXmark, faLightbulb } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

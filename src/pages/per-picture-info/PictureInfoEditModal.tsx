@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { ModalInnerComponent } from '../../modal/Modal'
-import { GlobalInfoForm, Output } from './GlobalInfo'
-import { Button } from '../../button/Button'
-import { Value } from './fields/Fields'
-import { PictureInfo } from './pictureInfo'
+import { Button } from '../../components/button/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
+import { ModalInnerComponent } from '../../modals/Modal'
+import { GlobalInfoForm, Output } from '../global-info/GlobalInfo'
+import { PictureInfo } from './PerPictureInfo'
+import { Value } from '../../components/select/Select'
 
 export type PictureInfoEditModalContext = PictureInfo & {
   patchInfo: (info: Output) => void

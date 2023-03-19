@@ -2,7 +2,7 @@ import './Navbar.scss'
 
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ModalRef } from '../modal/Modal'
+import { ModalRef } from '../../modals/Modal'
 import { AboutModal } from './AboutModal'
 
 const logoUrl = 'https://pyronear.org/img/logo_letters.png'

@@ -1,12 +1,12 @@
 import './App.scss'
-import Navbar from './components/navbar/Navbar'
-import { Intro } from './components/intro/Intro'
-import { Send } from './components/send/Send'
 import { useEffect, useRef, useState } from 'react'
-import { GlobalInfo, Output as GlobalInfoOutput } from './components/send/form/GlobalInfo'
-import { PerPictureInfo } from './components/send/form/PerPictureInfo'
-import { Carousels } from './components/intro/carousel/Carousels'
-import { Modal, ModalRef } from './components/modal/Modal'
+import { Modal, ModalRef } from './modals/Modal'
+import { GlobalInfo, Output as GlobalInfoOutput } from './pages/global-info/GlobalInfo'
+import { Intro } from './pages/landing/Intro'
+import { Send } from './pages/landing/Send'
+import { PerPictureInfo } from './pages/per-picture-info/PerPictureInfo'
+import Navbar from './global-components/navbar/Navbar'
+import { Carousels } from './global-components/carousel/Carousels'
 
 const vis = (() => {
   const keysList = ['hidden', 'webkitHidden', 'mozHidden', 'msHidden'] as const

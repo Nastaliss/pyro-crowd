@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ModalInnerComponent } from '../modal/Modal'
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
+import { ModalInnerComponent } from '../../modals/Modal'
 
 export const AboutModal: ModalInnerComponent = ({ close }: { close: () => void }): JSX.Element => {
   return (

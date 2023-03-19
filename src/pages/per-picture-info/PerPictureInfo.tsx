@@ -1,15 +1,20 @@
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
-import { Pill } from '../../pill/Pill'
-import { Output } from './GlobalInfo'
 import './PerPictureInfo.scss'
-import { ALL_TAGS_TO_FALSE, TagState, Tags } from '../../tag/Tags'
-import { PictureSelector } from '../../picture-by-picture/PictureSelector'
-import { ModalRef } from '../../modal/Modal'
-import { PictureInfoEditModal, PictureInfoEditModalContext } from './PictureInfoEditModal'
 import { useEffect, useState } from 'react'
-import { AllTags } from '../../tag/resources/tags'
-import { PictureInfo } from './pictureInfo'
-import { Button } from '../../button/Button'
+import { Output } from '../global-info/GlobalInfo'
+import { AllTags } from './tags/resources/tags'
+import { ModalRef } from '../../modals/Modal'
+import { ALL_TAGS_TO_FALSE, TagState, Tags } from './tags/Tags'
+import { PictureInfoEditModal, PictureInfoEditModalContext } from './PictureInfoEditModal'
+import { PictureSelector } from './picture-selector/PictureSelector'
+import { Pill } from '../../components/pill/Pill'
+import { Button } from '../../components/button/Button'
+
+export type PictureInfo = Output & {
+  tags: Record<AllTags, boolean>
+  file: File
+  deleted: boolean
+}
 
 export const PerPictureInfo = ({
   globalInfo,

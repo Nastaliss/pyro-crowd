@@ -1,6 +1,6 @@
+import { PictureInfo } from '../PerPictureInfo'
 import './PictureSelector.scss'
-import { Picture } from './Picture'
-import { PictureInfo } from '../send/form/pictureInfo'
+import { Picture } from './picture/Picture'
 
 export const PictureSelector = ({
   pictures,

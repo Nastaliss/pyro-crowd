@@ -1,8 +1,8 @@
 import { useRef } from 'react'
-import { Button } from '../../button/Button'
-import './Upload.scss'
+import './MobileUpload.scss'
+import { Button } from '../../../components/button/Button'
 
-const Upload = ({ onImageUpload }: { onImageUpload: (files: FileList) => any }): JSX.Element => {
+const MobileUpload = ({ onImageUpload }: { onImageUpload: (files: FileList) => any }): JSX.Element => {
   const inputRef = useRef<null | HTMLInputElement>(null)
 
   return (
@@ -13,4 +13,4 @@ const Upload = ({ onImageUpload }: { onImageUpload: (files: FileList) => any }):
   )
 }
 
-export default Upload
+export default MobileUpload

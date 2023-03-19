@@ -1,9 +1,9 @@
 import './Send.scss'
-import Upload from './upload/Upload'
-import MobileUpload from './mobile-upload/Upload'
-import { Hint } from './hint/hint'
-import { Footer } from './footer/footer'
 import { useRef } from 'react'
+import MobileUpload from './mobile-upload/MobileUpload'
+import { Hint } from './hint/hint'
+import Upload from './upload/Upload'
+import { Footer } from '../../global-components/footer/footer'
 
 export const Send = ({ isMobile, onSubmit }: { isMobile: boolean, onSubmit: (files: File[]) => void }): JSX.Element => {
   const datePickerRef = useRef()

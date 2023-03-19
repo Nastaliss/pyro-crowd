@@ -1,6 +1,6 @@
-import { Tag } from './Tag'
 import './Tags.scss'
 import { AllTags, allTags, tags } from './resources/tags'
+import { Tag } from './tag/Tag'
 
 export const ALL_TAGS_TO_FALSE = {
   clouds: false,

@@ -1,9 +1,10 @@
-import { DateTimePicker, DropDown, Value } from './fields/Fields'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import './GlobalInfo.scss'
-import { Checkbox } from '../../checkbox/Checkbox'
 import { useState } from 'react'
-import { Button } from '../../button/Button'
+import { DropDown, Value } from '../../components/select/Select'
+import { Checkbox } from '../../components/checkbox/Checkbox'
+import { Button } from '../../components/button/Button'
+import { DateTimePicker } from '../../components/date-time-picker/DateTimePicker'
 
 type DepartmentInfo = Record<string, string>
 

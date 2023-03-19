@@ -1,4 +1,4 @@
-import { Button } from '../button/Button'
+import { Button } from '../../components/button/Button'
 import './Intro.scss'
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
