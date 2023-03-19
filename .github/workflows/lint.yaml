@@ -5,6 +5,9 @@ on:
     - 'src/**/*.{ts,tsx}'
     - '.github/workflows/**'
     - 'public/**'
+  pull_request:
+    branches:
+    - main
 jobs:
   lint:
     runs-on: ubuntu-latest
