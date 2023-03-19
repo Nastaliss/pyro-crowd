@@ -8,9 +8,6 @@ on:
     - '.github/workflows/**'
     - 'CI/**'
     - 'public/**'
-  pull_request:
-    branches:
-    - main
 jobs:
   deploy-front:
     runs-on: ubuntu-latest
