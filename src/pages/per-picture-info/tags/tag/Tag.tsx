@@ -3,7 +3,17 @@ import './Tag.scss'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 import { AllTags, TagInfo } from '../resources/tags'
 
-export const Tag = ({ tagInfo, enabled, onClick, tagId }: { tagInfo: TagInfo, enabled: boolean, onClick: (key: AllTags) => void, tagId: AllTags }): JSX.Element => {
+export const Tag = ({
+  tagInfo,
+  enabled,
+  onClick,
+  tagId
+}: {
+  tagInfo: TagInfo
+  enabled: boolean
+  onClick: ((key: AllTags) => void) | (() => void)
+  tagId: AllTags
+}): JSX.Element => {
   return (
     <div className={`tagContainer ${enabled ? 'enabled' : 'disabled'}`} onClick={() => onClick(tagId)}>
       <div className='tag'>
