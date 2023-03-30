@@ -1,4 +1,4 @@
-import { Button } from '../../components/button/Button'
+import { Button } from '../../generic-components/button/Button'
 import './Intro.scss'
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
@@ -12,7 +12,7 @@ export const Intro = ({ isMobile }: { isMobile: boolean }): JSX.Element => {
           <h2>🤝 Comment aider ?</h2>
           <p id="explainSubtitle">{'En partageant une photo, vous participez à la création d\'un jeu de données public qui permet d\'aider à la détection de feux de forêts.'}</p>
         </div>
-        <a id="detection" href="detect">En savoir plus sur notre système de détection</a>
+        <a id="detection">En savoir plus sur notre système de détection</a>
         {isMobile ? <></> : <Button text={'Envoyer une photo'} icon={faArrowDown} className='sendButton'/>}
       </div>
     </div>

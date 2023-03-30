@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import './MobileUpload.scss'
-import { Button } from '../../../components/button/Button'
+import { Button } from '../../../generic-components/button/Button'
 
 const MobileUpload = ({ onImageUpload }: { onImageUpload: (files: FileList) => any }): JSX.Element => {
   const inputRef = useRef<null | HTMLInputElement>(null)

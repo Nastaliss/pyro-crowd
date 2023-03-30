@@ -1,12 +1,14 @@
 import './App.scss'
 import { useEffect, useRef, useState } from 'react'
 import { Modal, ModalRef } from './modals/Modal'
-import { GlobalInfo, Output as GlobalInfoOutput } from './pages/global-info/GlobalInfo'
+import { GlobalInfo, GlobalInfoData } from './pages/global-info/GlobalInfo'
 import { Intro } from './pages/landing/Intro'
 import { Send } from './pages/landing/Send'
 import { PerPictureInfo } from './pages/per-picture-info/PerPictureInfo'
 import Navbar from './global-components/navbar/Navbar'
 import { Carousels } from './global-components/carousel/Carousels'
+
+const MOBILE_PX_THRESHOLD = 650
 
 const vis = (() => {
   const keysList = ['hidden', 'webkitHidden', 'mozHidden', 'msHidden'] as const
@@ -41,7 +43,7 @@ function App (): JSX.Element {
   const [animate, setAnimate] = useState(true)
 
   const onWindowResize = (): void => {
-    if (window.innerWidth < 650) {
+    if (window.innerWidth < MOBILE_PX_THRESHOLD) {
       setIsMobile(true)
       return
     }
@@ -69,7 +71,7 @@ function App (): JSX.Element {
 
   const [stage, setStage] = useState<'IMAGE_UPLOAD' | 'GLOBAL_INFO' | 'PER_PICTURE_INFO' | 'CONFIRM'>('IMAGE_UPLOAD')
 
-  const [globalInfo, setGlobalInfo] = useState<GlobalInfoOutput | null>(
+  const [globalInfo, setGlobalInfo] = useState<GlobalInfoData | null>(
     { consent: true, datetime: new Date(), departement: 'Aine' }
   )
 
@@ -81,7 +83,7 @@ function App (): JSX.Element {
     setStage('GLOBAL_INFO')
   }
 
-  const onGlobalInfoSubmit = (globalInfoOutput: GlobalInfoOutput): void => {
+  const onGlobalInfoSubmit = (globalInfoOutput: GlobalInfoData): void => {
     setGlobalInfo(globalInfoOutput)
     setStage('PER_PICTURE_INFO')
   }
@@ -112,7 +114,7 @@ function App (): JSX.Element {
           {
             modalRef.current === null
               ? <></>
-              : <PerPictureInfo globalInfo={globalInfo} imageUploads={imageUploads} modalRef={modalRef.current} isMobile={isMobile}/>
+              : <PerPictureInfo imageUploads={imageUploads} globalInfo={globalInfo} modalRef={modalRef.current} isMobile={isMobile}/>
           }
         </>
       )

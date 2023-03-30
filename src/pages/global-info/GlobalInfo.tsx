@@ -1,10 +1,10 @@
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import './GlobalInfo.scss'
 import { useState } from 'react'
-import { DropDown, Value } from '../../components/select/Select'
-import { Checkbox } from '../../components/checkbox/Checkbox'
-import { Button } from '../../components/button/Button'
-import { DateTimePicker } from '../../components/date-time-picker/DateTimePicker'
+import { DropDown, Value } from '../../generic-components/select/Select'
+import { Checkbox } from '../../generic-components/checkbox/Checkbox'
+import { Button } from '../../generic-components/button/Button'
+import { DateTimePicker } from '../../generic-components/date-time-picker/DateTimePicker'
 
 type DepartmentInfo = Record<string, string>
 
@@ -111,16 +111,15 @@ const departments: DepartmentInfo = {
   'La Réunion': '974',
   Mayotte: '976'
 }
-const formKeys = ['date', 'time', 'departement', 'consent'] as const
-type formKey = typeof formKeys[number]
+type formKey = 'date' | 'time' | 'departement' | 'consent'
 
-export interface Output {
+export interface GlobalInfoData {
   datetime: Date
   departement: string
   consent: boolean
 }
 
-export const GlobalInfo = ({ onSubmit }: { onSubmit: (output: Output) => void }): JSX.Element => {
+export const GlobalInfo = ({ onSubmit }: { onSubmit: (output: GlobalInfoData) => void }): JSX.Element => {
   const [valid, setValid] = useState < Record<formKey, boolean>>({
     date: false,
     time: false,
@@ -166,11 +165,10 @@ export const GlobalInfo = ({ onSubmit }: { onSubmit: (output: Output) => void })
   }
 
   const onDepartementChange = (departement: Value | null): void => {
-    let departmentIsValid = false
+    let departmentIsValid = true
     if (departement === null) {
-      return
+      departmentIsValid = false
     }
-    departmentIsValid = true
     setDepartement(departement as string)
     setValid({
       ...valid,
@@ -195,7 +193,7 @@ export const GlobalInfo = ({ onSubmit }: { onSubmit: (output: Output) => void })
   return (
     <div className="contentContainer" id="globalInfo">
       <h2>Ajoutez des informations pour ces photos </h2>
-      <h3>Vous pourrez editer l&apos;emplacement pour chaque photo à létape suivante.</h3>
+      <h3>Vous pourrez éditer l&apos;emplacement pour chaque photo à l&#39;étape suivante.</h3>
       <div id="form" className='formBox' >
         <GlobalInfoForm date={date} onDateTimeChange={onDateTimeChange} valid={valid} onDepartementChange={onDepartementChange}/>
       </div>
@@ -214,6 +212,7 @@ export const GlobalInfoForm = ({ date, onDateTimeChange, valid, onDepartementCha
       <DropDown
         id="dept"
         label="Département"
+        placeholder='Choisir un département'
         icon={faChevronDown}
         items={Object.keys(departments).map((name) => ({ displayName: name, value: name }))}
         onChange={onDepartementChange}

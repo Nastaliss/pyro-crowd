@@ -1,19 +1,18 @@
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import './PerPictureInfo.scss'
 import { useEffect, useState } from 'react'
-import { Output } from '../global-info/GlobalInfo'
+import { GlobalInfoData } from '../global-info/GlobalInfo'
 import { AllTags } from './tags/resources/tags'
 import { ModalRef } from '../../modals/Modal'
 import { ALL_TAGS_TO_FALSE, TagState, Tags } from './tags/Tags'
 import { PictureInfoEditModal, PictureInfoEditModalContext } from './PictureInfoEditModal'
 import { PictureSelector } from './picture-selector/PictureSelector'
-import { Pill } from '../../components/pill/Pill'
-import { Button } from '../../components/button/Button'
+import { Pill } from '../../generic-components/pill/Pill'
+import { Button } from '../../generic-components/button/Button'
 
-export type PictureInfo = Output & {
-  tags: Record<AllTags, boolean>
+export type PictureInfo = GlobalInfoData & {
   file: File
-  deleted: boolean
+  tags: Record<AllTags, boolean>
 }
 
 export const PerPictureInfo = ({
@@ -22,7 +21,7 @@ export const PerPictureInfo = ({
   modalRef,
   isMobile
 }: {
-  globalInfo: Output
+  globalInfo: GlobalInfoData
   imageUploads: File[]
   modalRef: ModalRef
   isMobile: boolean
@@ -58,10 +57,9 @@ export const PerPictureInfo = ({
     for (let pictureIndex = 0; pictureIndex < imageUploads.length; pictureIndex++) {
       perPictureInfoBuilder.push({
         ...globalInfo,
-        datetime: new Date(globalInfo.datetime), // Deep copying is required to break bond between dates
-        file: structuredClone(imageUploads[pictureIndex]),
-        tags: ALL_TAGS_TO_FALSE,
-        deleted: false
+        datetime: globalInfo.datetime,
+        file: imageUploads[pictureIndex],
+        tags: ALL_TAGS_TO_FALSE
       })
     }
     setPerPictureInfo(perPictureInfoBuilder)
@@ -97,13 +95,14 @@ export const PerPictureInfo = ({
   const triggerCurrentPictureDeleteAnimation = (): void => {
     setCurrentPictureDeleting(true)
   }
+
   const onCurrentPictureDeleteAnimationComplete = (): void => {
     setCurrentPictureDeleting(false)
 
     const editedPerPictureInfo = perPictureInfo
     editedPerPictureInfo.splice(currentPictureIndex, 1)
     setCurrentPictureIndex(Math.max(0, currentPictureIndex - 1))
-    setPerPictureInfo([...editedPerPictureInfo])
+    setPerPictureInfo(editedPerPictureInfo)
   }
 
   const selectFirstInvalidPicture = (): void => {

@@ -3,7 +3,9 @@ import './Picture.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
-const DELAY_SECONDS = 1
+const DELAY_SECONDS = 0.1
+
+// todo: do not pass index
 
 export const Picture = ({
   className,
@@ -42,14 +44,15 @@ export const Picture = ({
 
   useEffect(() => {
     if (!deleting) return
-    setTimeout(() => onDeleteComplete(), DELAY_SECONDS * 100)
+    setTimeout(() => onDeleteComplete(), DELAY_SECONDS * 1000)
   }, [deleting])
 
   const onTouchStart = (e: React.TouchEvent<HTMLImageElement>): void => {
     setTouchStartPos(e.targetTouches[0].clientX)
   }
   const onTouchMove = (e: React.TouchEvent<HTMLImageElement>): void => setTouchCurrentPos(e.targetTouches[0].clientX)
-  const onTouchEnd = (e: React.TouchEvent<HTMLImageElement>): void => onSwipe(index, (touchCurrentPos === null ? 0 : touchCurrentPos) - (touchStartPos === null ? 0 : touchStartPos))
+  const onTouchEnd = (_e: React.TouchEvent<HTMLImageElement>): void => onSwipe(index, (touchCurrentPos === null ? 0 : touchCurrentPos) - (touchStartPos === null ? 0 : touchStartPos))
+
   return (
     (pictureSrc !== null
       ? <div className='picture-preview'>

@@ -49,7 +49,7 @@ export const Modal = forwardRef<ModalRef, Props>(({ handleChange }, ref: any): J
   return (
     <>
      {_isOpen && InnerComponent !== null &&
-  <div id="modalContainer" className={isClosing ? 'isClosing' : ''} style={{ transition: `opacity ${ANIMATION_DURATION_SECONDS}s` }} onClick={close}>
+      <div id="modalContainer" className={isClosing ? 'isClosing' : ''} style={{ transition: `opacity ${ANIMATION_DURATION_SECONDS}s` }} onClick={close}>
         <div id="modal" onClick={(e) => e.stopPropagation()}>
           <InnerComponent close={close} context={context}/>
         </div>

@@ -63,7 +63,7 @@ export const PictureSelector = ({
         pictures.map((picture, pictureIndex) => {
           return <Picture
           key={pictureIndex}
-          className={`${pictureIndex === currentPictureIndex ? 'selected' : ''} ${picture.deleted ? 'deleted' : ''}`}
+          className={pictureIndex === currentPictureIndex ? 'selected' : ''}
           picture={picture.file}
           index={pictureIndex}
           clickable={pictureIsSelectable(pictureIndex)}
@@ -71,7 +71,7 @@ export const PictureSelector = ({
           onClick={onPictureClick}
           onSwipe={onPictureSwipe}
           onDelete={deleteCurrentPicture}
-          deleting={currentPictureIndex !== pictureIndex ? false : currentPictureDeleting}
+          deleting={currentPictureIndex === pictureIndex ? currentPictureDeleting : false } // todo: find out why this is needed
           onDeleteComplete={onCurrentPictureDeleted}
           />
         })

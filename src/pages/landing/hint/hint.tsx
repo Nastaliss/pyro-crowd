@@ -6,7 +6,7 @@ import { faCircleCheck, faCircleXmark, faLightbulb } from '@fortawesome/free-sol
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export const Hint = ({ isMobile }: { isMobile: boolean }): JSX.Element =>
   <div id="uploadHint" className={`formBox${isMobile ? ' mobile' : ''}`} >
-    <h2><FontAwesomeIcon icon={faLightbulb} id="bulb-icon"/>Quelle type de photo envoyer ?</h2>
+    <h2><FontAwesomeIcon icon={faLightbulb} id="bulb-icon"/>Quel type de photo envoyer ?</h2>
     <p>Idéalement, partagez-nous une photo depuis une vue assez dégagée sur une zone forestière, avec et/ou sans flamme/fumée.</p>
     <div id="uploadHintComparison">
       <div className='yes'>
