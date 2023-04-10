@@ -5,8 +5,6 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 const DELAY_SECONDS = 0.1
 
-// todo: do not pass index
-
 export const Picture = ({
   className,
   picture,
