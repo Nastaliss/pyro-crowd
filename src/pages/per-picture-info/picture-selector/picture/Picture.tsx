@@ -46,8 +46,13 @@ export const Picture = ({
   const onTouchStart = (e: React.TouchEvent<HTMLImageElement>): void => {
     setTouchStartPos(e.targetTouches[0].clientX)
   }
-  const onTouchMove = (e: React.TouchEvent<HTMLImageElement>): void => setTouchCurrentPos(e.targetTouches[0].clientX)
-  const onTouchEnd = (_e: React.TouchEvent<HTMLImageElement>): void => onSwipe((touchCurrentPos === null ? 0 : touchCurrentPos) - (touchStartPos === null ? 0 : touchStartPos))
+
+  const onTouchMove = (e: React.TouchEvent<HTMLImageElement>): void => {
+    setTouchCurrentPos(e.targetTouches[0].clientX)
+  }
+  const onTouchEnd = (_e: React.TouchEvent<HTMLImageElement>): void => {
+    onSwipe((touchCurrentPos === null ? 0 : touchCurrentPos) - (touchStartPos === null ? 0 : touchStartPos))
+  }
 
   return (
     (pictureSrc !== null
