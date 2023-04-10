@@ -3,7 +3,6 @@ import './Tag.scss'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 import { TagInfo } from '../resources/tags'
 
-// todo: remove tagId
 export const Tag = ({
   tagInfo,
   enabled,
