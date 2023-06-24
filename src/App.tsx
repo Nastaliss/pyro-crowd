@@ -8,7 +8,7 @@ import { PerPictureInfo, PictureInfo } from './pages/per-picture-info/PerPicture
 import Navbar from './global-components/navbar/Navbar'
 import { Carousels } from './global-components/carousel/Carousels'
 import { StorageService } from './services/storage/storage.service'
-import { uploadImagesAndMetadata } from './services/crowdsourced-images/crowdsourced-images.service'
+import { AllTags } from './pages/per-picture-info/tags/resources/tags'
 
 const MOBILE_PX_THRESHOLD = 650
 
@@ -55,8 +55,6 @@ function App (): JSX.Element {
   const modalRef = useRef<ModalRef>(null)
 
   useEffect(() => {
-    void new StorageService().initialize()
-
     window.addEventListener('resize', onWindowResize)
     onWindowResize()
 
@@ -94,7 +92,10 @@ function App (): JSX.Element {
 
   const onPerPictureInfoSubmit = async (picturesInfo: PictureInfo[]): Promise<void> => {
     setPicturesInfo(picturesInfo)
-    await uploadImagesAndMetadata(picturesInfo)
+    const storage = new StorageService()
+    await Promise.all(picturesInfo.map(async (pictureInfo, index): Promise<void> => {
+      await storage.uploadMediaWithAnnotations(pictureInfo.file, Object.keys(pictureInfo.tags).filter((tag) => pictureInfo.tags[tag as AllTags]))
+    }))
     setStage('CONFIRM')
   }
 

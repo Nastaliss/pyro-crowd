@@ -12,3 +12,9 @@ export interface CreateMediaResponseDTO {
 export interface GetMediaUrlDTO {
   'url': string
 }
+
+export interface CreateAnnotationResponseDTO {
+  'id': number
+  'created_at': string // ISO 8601
+  'media_id': number
+}
