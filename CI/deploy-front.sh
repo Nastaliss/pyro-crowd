@@ -15,7 +15,8 @@ REMOTE_PATH="/var/www/crowdsourcer.bruhie.re/"
 OUT="./build"
 CONNECTION="root@$SERVER_IP"
 
-npm install --no-optional
+npm install yarn --global
+npm run yarn
 npm run build
 
 echo -e "Removing remote folder ..."

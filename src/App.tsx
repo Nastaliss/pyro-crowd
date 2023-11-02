@@ -4,9 +4,10 @@ import { Modal, ModalRef } from './modals/Modal'
 import { GlobalInfo, GlobalInfoData } from './pages/global-info/GlobalInfo'
 import { Intro } from './pages/landing/Intro'
 import { Send } from './pages/landing/Send'
-import { PerPictureInfo } from './pages/per-picture-info/PerPictureInfo'
+import { PerPictureInfo, PerPictureInfoOutput } from './pages/per-picture-info/PerPictureInfo'
 import Navbar from './global-components/navbar/Navbar'
 import { Carousels } from './global-components/carousel/Carousels'
+import uploadService from './services/upload'
 
 const MOBILE_PX_THRESHOLD = 650
 
@@ -88,6 +89,12 @@ function App (): JSX.Element {
     setStage('PER_PICTURE_INFO')
   }
 
+  const onPerPictureInfoSubmit = async (perPictureInfoOutput: PerPictureInfoOutput): Promise<void> => {
+    for (const perPictureInfo of perPictureInfoOutput) {
+      await uploadService.uploadPicture(perPictureInfo.file)
+    }
+  }
+
   switch (stage) {
     case 'IMAGE_UPLOAD':
       content = (
@@ -114,7 +121,7 @@ function App (): JSX.Element {
           {
             modalRef.current === null
               ? <></>
-              : <PerPictureInfo imageUploads={imageUploads} globalInfo={globalInfo} modalRef={modalRef.current} isMobile={isMobile}/>
+              : <PerPictureInfo imageUploads={imageUploads} globalInfo={globalInfo} modalRef={modalRef.current} isMobile={isMobile} onSubmit={onPerPictureInfoSubmit}/>
           }
         </>
       )

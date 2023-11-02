@@ -15,16 +15,20 @@ export type PictureInfo = GlobalInfoData & {
   tags: Record<AllTags, boolean>
 }
 
+export type PerPictureInfoOutput = PictureInfo[]
+
 export const PerPictureInfo = ({
   globalInfo,
   imageUploads,
   modalRef,
-  isMobile
+  isMobile,
+  onSubmit
 }: {
   globalInfo: GlobalInfoData
   imageUploads: File[]
   modalRef: ModalRef
   isMobile: boolean
+  onSubmit: (perPictureInfoOutput: PerPictureInfoOutput) => Promise<void>
 }): JSX.Element => {
   const [perPictureInfo, setPerPictureInfo] = useState<PictureInfo[]>([])
   const [currentPictureIndex, setCurrentPictureIndex] = useState<number>(0)
@@ -131,7 +135,7 @@ export const PerPictureInfo = ({
       <p>Sélectionnez les éléments que vous voyez</p>
       <Tags tagEnabled={perPictureInfo[currentPictureIndex].tags} setTagEnabled={setTagEnabled}/>
       {picturesLeftToTagCount !== null && picturesLeftToTagCount !== 0 && <p className='error'>Il reste {picturesLeftToTagCount} {picturesLeftToTagCount === 1 ? 'photo' : 'photos' } à décrire. <span className='clickable' onClick={selectFirstInvalidPicture}>Voir</span></p>}
-      <Button text='Envoyer' filled={isMobile} disabled={picturesLeftToTagCount !== 0}/>
+      <Button text='Envoyer' filled={isMobile} onClick={async () => await onSubmit(perPictureInfo)} disabled={picturesLeftToTagCount !== 0}/>
     </div>
   )
 }
